@@ -15,5 +15,5 @@ Automate the process of:
 | Added manually using the link given at VAMK| Added automatically using the program |
 
 ## Acknowledment
-The great scheduler at VAMK
+The great scheduler at VAMK  
 My cat
