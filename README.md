@@ -10,6 +10,6 @@ Automate the process of:
 * Inserting the modified events to Google calendar
 
 ## Result
-| Added manually using the link given at VAMK without any modification | Added automatically using the program |
-| --- | --- |
 | ![before-small](https://user-images.githubusercontent.com/24993267/45255543-98802e80-b390-11e8-9fa1-3702ac943dd5.png) | ![after-small](https://user-images.githubusercontent.com/24993267/45255537-9027f380-b390-11e8-9b66-56f794a91bc6.png) |
+| --- | --- |
+| Added manually using the link given at VAMK| Added automatically using the program |
