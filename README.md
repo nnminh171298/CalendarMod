@@ -1,6 +1,6 @@
 # CalendarMod
 Developed using Qt 5.11.1  
-Build using MSVC 15.0 (x86) compiler
+Built using MSVC 15.0 (x86) compiler
 
 ## Task
 Automate the process of:
