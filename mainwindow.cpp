@@ -5,6 +5,8 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    qDebug() << QSslSocket::sslLibraryBuildVersionString();
+
     QCoreApplication::setOrganizationName("nomi2208");
     QCoreApplication::setOrganizationDomain("nomi2208.com");
     QCoreApplication::setApplicationName("CalendarMod");

@@ -2,17 +2,20 @@
 #define GOOGLEWRAPPER_H_H
 
 #include <QObject>
+#include <QDialog>
 #include <QDebug>
 #include <QtNetworkAuth>
 #include <QOAuth2AuthorizationCodeFlow>
 #include <QDesktopServices>
 #include <QWebEngineView>
+#include <QGridLayout>
 
 class GoogleWrapper : public QObject
 {
     Q_OBJECT
 public:
     explicit GoogleWrapper(QObject *parent = nullptr);
+    ~GoogleWrapper();
 
 signals:
     void authorized();
@@ -31,8 +34,11 @@ private slots:
     void urlChanged(const QUrl &url);
 
 private:
+    void makeAuthenticateDialog();
     QOAuth2AuthorizationCodeFlow google;
-    QWebEngineView webEngine;
+
+    QDialog *authenticateDialog;
+    QWebEngineView *webEngine;
 };
 
 #endif // OAUTH2_H

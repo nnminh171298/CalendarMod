@@ -7,6 +7,8 @@ const QString revokeTokenUrl("https://accounts.google.com/o/oauth2/revoke?token=
 
 GoogleWrapper::GoogleWrapper(QObject *parent) : QObject(parent)
 {
+    makeAuthenticateDialog();
+
     QFile file(QDir::currentPath() + "/client_id_CalendarMod.json");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QJsonDocument document = QJsonDocument::fromJson(file.readAll());
@@ -37,7 +39,12 @@ GoogleWrapper::GoogleWrapper(QObject *parent) : QObject(parent)
         if (status == QAbstractOAuth::Status::Granted)
             emit authorized();
     });
-    connect(&webEngine, &QWebEngineView::urlChanged, this, &GoogleWrapper::urlChanged);
+    connect(webEngine, &QWebEngineView::urlChanged, this, &GoogleWrapper::urlChanged);
+}
+
+GoogleWrapper::~GoogleWrapper()
+{
+    delete webEngine;
 }
 
 void GoogleWrapper::grant()
@@ -94,15 +101,25 @@ void GoogleWrapper::revokeToken()
 
 void GoogleWrapper::authorize(const QUrl &url)
 {
-    webEngine.setWindowTitle("CalendarMod - User Google authorization");
-    webEngine.show();
-    webEngine.load(url);
+    webEngine->load(url);
+    authenticateDialog->exec();
 }
 
 void GoogleWrapper::urlChanged(const QUrl &url)
 {
     if(url.toString().indexOf("http://localhost:8080/") == 0)
-        webEngine.close();
+        authenticateDialog->hide();
+}
+
+void GoogleWrapper::makeAuthenticateDialog()
+{
+    authenticateDialog = new QDialog();
+    authenticateDialog->setWindowTitle("CalendarMod - User Google authorization");
+
+    webEngine = new QWebEngineView();
+
+    QGridLayout *layoutSettingDialog = new QGridLayout(authenticateDialog);
+    layoutSettingDialog->addWidget(webEngine, 0, 0);
 }
 
 
