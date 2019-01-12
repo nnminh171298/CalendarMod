@@ -166,6 +166,9 @@ void MainWindow::calendarReady(const QStringList &courseNameList, const QByteArr
                 insertCourseModel->appendRow({new QStandardItem(courseNameList.at(i)), new QStandardItem(QString())});
             else
                 insertCourseModel->appendRow({new QStandardItem(QString()), new QStandardItem(courseNameList.at(i))});
+
+        if(!omitList.isEmpty())
+            updateEventButton->click();
     }
 }
 
