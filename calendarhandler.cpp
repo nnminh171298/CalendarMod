@@ -11,37 +11,31 @@ CalendarHandler::CalendarHandler(QObject *parent) : QObject(parent)
 // get the .ics file from the Url
 void CalendarHandler::getCalendar(const QString &groupCode)
 {
+    emit eventLogSignal("Download the ics file");
+
     QNetworkRequest request(calendarUrl + groupCode + ".ics");
     webCtrl.get(request);
 }
 
-int CalendarHandler::getEventCount()
-{
-    return eventCount;
-}
-
-QByteArray CalendarHandler::getEventDataAt(int index)
-{
-    return modifiedData.at(index);
-}
-
 void CalendarHandler::fileDownloaded(QNetworkReply *reply)
 {
+    emit eventLogSignal("Download the ics file", true);
+
     QByteArray downloadedData = reply->readAll();
-    dataString = QString(downloadedData);
+    dataString = QString::fromLatin1(downloadedData);
     if(!dataString.isEmpty())
         modifyCalendar();
 }
 
 void CalendarHandler::modifyCalendar()
 {
+    emit eventLogSignal("Delete useless info");
     changeDescription();
     changeSummary();
     changeLocation();
+    emit eventLogSignal("Delete useless info", true);
 
     createEventsData();
-
-    emit calendarReady();
 }
 
 void CalendarHandler::changeDescription()
@@ -127,8 +121,11 @@ void CalendarHandler::changeLocation()
     }
 }
 
-void CalendarHandler::createEventsData()
+void CalendarHandler::createEventsData(const QStringList &omitCourses)
 {
+    modifiedData.clear();
+    QStringList courseList;
+
     int searchBeginIndexFrom = 0;
     int searchEndIndexFrom;
     while(true)
@@ -138,31 +135,48 @@ void CalendarHandler::createEventsData()
         searchEndIndexFrom = beginIndex+1;
         int endIndex = dataString.indexOf("BEGIN:VEVENT", searchEndIndexFrom);
         int length = endIndex - beginIndex;
+        searchBeginIndexFrom = endIndex;
 
-        // create event data
-        QString eventString = dataString.mid(beginIndex, length);
-        // omit last "\r\n"
-        eventString.chop(4);
-        QStringList lineList = eventString.split("\r\n");
-
-        QJsonObject eventObject;
-        for(int i=0; i<lineList.length(); i++)
+        if(beginIndex != -1)
         {
-            QString line = lineList.at(i);
-            QStringList subStringList = line.split(":");
-            QString key = subStringList.takeFirst();
-            QString value = subStringList.join(":");
-            insertValue(&eventObject, key, value);
-        }
-        QJsonDocument jsonDoc(eventObject);
-        QByteArray dataArray = jsonDoc.toJson(QJsonDocument::Compact);
-        modifiedData.append(dataArray);
+            // get event in ics
+            QString eventString = dataString.mid(beginIndex, length);
+            QString summary = getSummary(eventString);
+            if(omitCourses.contains(summary))
+            {
+                if(endIndex == -1)
+                    break;
+                else
+                    continue;
+            }
+            if(!courseList.contains(summary))
+                courseList.append(summary);
 
-        eventCount++;
+            // omit last "\r\n"
+            eventString.chop(4);
+            QStringList lineList = eventString.split("\r\n");
+
+            // create event data for Google
+            QJsonObject eventObject;
+            for(int i=0; i<lineList.length(); i++)
+            {
+                QString line = lineList.at(i);
+                QStringList subStringList = line.split(":");
+                QString key = subStringList.takeFirst();
+                QString value = subStringList.join(":");
+                insertValue(&eventObject, key, value);
+            }
+            QJsonDocument jsonDoc(eventObject);
+            QByteArray dataArray = jsonDoc.toJson(QJsonDocument::Compact);
+            modifiedData.append(dataArray);
+        }
+
         if(endIndex == -1)
             break;
-        searchBeginIndexFrom = endIndex;
     }
+
+    courseList.sort();
+    emit calendarReady(courseList, modifiedData);
 }
 
 void CalendarHandler::insertValue(QJsonObject *eventObject, const QString &key, const QString &value)
@@ -186,4 +200,24 @@ void CalendarHandler::insertValue(QJsonObject *eventObject, const QString &key, 
         eventObject->insert(key.toLower(), value);
         return;
     }
+}
+
+QString CalendarHandler::getSummary(const QString &event)
+{
+    int searchBeginIndexFrom = 0;
+    int searchEndIndexFrom;
+
+    // search indexes of the first and last character
+    int beginIndex = event.indexOf("SUMMARY:", searchBeginIndexFrom);
+    if(beginIndex == -1)
+        return QString();
+    searchEndIndexFrom = beginIndex;
+    int endIndex = event.indexOf("\r\n", searchEndIndexFrom);
+    int length = endIndex - beginIndex;
+
+    // get summary line
+    QString line = event.mid(beginIndex, length);
+    QStringList strList = line.split(":");
+
+    return strList[1];
 }

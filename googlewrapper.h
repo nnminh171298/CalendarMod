@@ -18,27 +18,33 @@ public:
     ~GoogleWrapper();
 
 signals:
-    void authorized();
-    void primaryCalendarCleared();
-    void eventInserted();
-    void tokenRevoked();
+    void eventLogSignal(const QString &message, const bool &done = false);
+    void eventInsertedCount(int count);
 
 public slots:
-    void grant();
-    void clearPrimaryCalendar();
-    void insertEvent(const QByteArray &eventData);
-    void revokeToken();
+    void googleStart(bool isPrimary, bool clearBeforeInsert, const QByteArrayList &events, const QString &secondaryName = QString());
 
 private slots:
-    void authorize(const QUrl &url);
+    void authorizeWithBrowser(const QUrl &url);
     void urlChanged(const QUrl &url);
 
 private:
+    void grant();
+    void clearCalendar(bool isPrimary);
+    void insertEvent(const QByteArray &eventData);
+    void revokeToken();
+    bool checkIfCalendarExist(const QString &calendarName);
+    void stripCalendarNameAndId(const QString &dataString, QStringList &calendarList, QStringList &idList);
+    void makeSecondaryCalendar(const QString &calendarName);
+
     void makeAuthenticateDialog();
+
     QOAuth2AuthorizationCodeFlow google;
 
     QDialog *authenticateDialog;
     QWebEngineView *webEngine;
+    QString calendarId = "primary";
+    int insertEventReplyCount = 0;
 };
 
 #endif // OAUTH2_H

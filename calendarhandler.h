@@ -12,16 +12,17 @@
 class CalendarHandler : public QObject
 {
     Q_OBJECT
+    friend class MainWindow;
+
 public:
     explicit CalendarHandler(QObject *parent = nullptr);
 
 signals:
-    void calendarReady();
+    void eventLogSignal(const QString &message, const bool &done = false);
+    void calendarReady(const QStringList &courseNameList, const QByteArrayList &eventData);
 
 public slots:
     void getCalendar(const QString &groupCode);
-    int getEventCount();
-    QByteArray getEventDataAt(int index);
 
 private slots:
     void fileDownloaded(QNetworkReply* reply);
@@ -31,13 +32,13 @@ private:
     void changeDescription();
     void changeSummary();
     void changeLocation();
-    void createEventsData();
+    void createEventsData(const QStringList &omitCourses = QStringList());
     void insertValue(QJsonObject *eventObject, const QString &key, const QString &value);
+    QString getSummary(const QString &event);
 
     QNetworkAccessManager webCtrl;
     QString dataString;
     QByteArrayList modifiedData;
-    int eventCount = 0;
 };
 
 #endif // CALENDARHANDLER_H

@@ -10,6 +10,11 @@
 #include <QSettings>
 #include <QGroupBox>
 #include <QProgressBar>
+#include <QRadioButton>
+#include <QButtonGroup>
+#include <QStandardItemModel>
+#include <QTreeView>
+#include <QHeaderView>
 
 QT_BEGIN_NAMESPACE
 class GoogleWrapper;
@@ -26,36 +31,54 @@ public:
 
 signals:
     void getCalendar(const QString &groupCode);
-    void authorize();
-    void clearPrimaryCalendar();
-    void insertEvent(const QByteArray &eventData);
-    void revokeToken();
+    void googleStart(bool isPrimary, bool clearBeforeInsert, const QByteArrayList &events, const QString &secondaryName = QString());
 
 private slots:
-    void startButtonClicked();
-    void calendarReady();
-    void authorized();
-    void primaryCalendarCleared();
-    void eventInserted();
-    void tokenRevoked();
+    void getCalendarButtonClicked();
+    void changeColumnButtonClicked();
+    void updateEventButtonClicked();
+    void googleStartButtonClicked();
+
+    void calendarReady(const QStringList &courseNameList, const QByteArrayList &eventData);
+
+    void updateEventView(const QString &message, const bool &done = false);
 
 private:
-    void makeView();
+    void makeGetCalendarBox();
+    void makeModCalendarBox();
+    void makeEventLog();
+    void makeAddGoogleBox();
+    void getLastSessionSettings();
 
     CalendarHandler *calendarHandler;
     GoogleWrapper *googleWrapper;
+    int eventCount = 0;
+    int googleChainCounter = 0;
 
-    QGroupBox *groupBox;
+    QGroupBox *getCalendarBox;
     QLineEdit *groupCodeEdit;
-    QCheckBox *calendarReadyCheckBox;
-    QCheckBox *authorizedCheckBox;
-    QCheckBox *clearCalendarCheckBox;
-    QCheckBox *insertEventCheckBox;
     QProgressBar *insertEventProgressBar;
-    QCheckBox *revokeTokenCheckBox;
-    QPushButton *startButton;
+    QPushButton *getCalendarButton;
+    QByteArrayList eventData;
 
-    int eventCount;
+    QGroupBox *modCalendarBox;
+    QStandardItemModel *insertCourseModel;
+    QTreeView *insertCourseView;
+    QPushButton *changeColumnButton;
+    QPushButton *updateEventButton;
+    QCheckBox *statusCheckBox;
+
+    QGroupBox *eventBox;
+    QStandardItemModel *eventModel;
+    QTreeView *eventView;
+
+    QGroupBox *googleBox;
+    QButtonGroup *choosingCalendarButtonGroup;
+    QRadioButton *primaryCalendarRadio;
+    QRadioButton *secondaryCalendarRadio;
+    QLineEdit *secondaryCalendarEdit;
+    QCheckBox *clearEventsCheckBox;
+    QPushButton *googleStartButton;
 };
 
 #endif // MAINWINDOW_H
