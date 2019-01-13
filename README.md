@@ -2,7 +2,7 @@
 Developed using Qt 5.11.1  
 Built using MSVC 15.0 (x86) compiler
 
-![image](https://user-images.githubusercontent.com/24993267/51078866-d84f7d80-16c4-11e9-8426-5efa0130c571.png)
+![untitled](https://user-images.githubusercontent.com/24993267/51085413-2ace7f80-1741-11e9-9123-e87b39d870b8.png)
 
 ## Task
 Automate the process of:
