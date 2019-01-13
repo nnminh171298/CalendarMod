@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>files/style.css</file>
+        <file>icons/CalendarMod.ico</file>
+        <file>icons/check.png</file>
+        <file>icons/check_d.png</file>
+        <file>icons/downarrow.png</file>
+        <file>icons/downarrow_d.png</file>
+        <file>icons/uncheck.png</file>
+        <file>icons/uncheck_d.png</file>
+    </qresource>
+</RCC>

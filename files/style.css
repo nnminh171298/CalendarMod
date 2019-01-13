@@ -1,0 +1,217 @@
+QScrollBar:vertical
+{
+	 border: 1px solid transparent;
+	 border-radius: 1px;
+	 background-color: transparent;
+	 padding: 0 0 0 0;
+	 width: 12px;
+}
+QScrollBar:horizontal
+{
+	 border: 1px solid transparent;
+	 border-radius: 1px;
+	 background-color: transparent;
+	 padding: 0 0 0 0;
+         height: 12px;
+}
+QScrollBar::handle
+{
+	 background: rgba(22,174,204,255);
+	 border: 1px solid transparent;
+	 border-radius: 1px;
+}
+QScrollBar::add-line:vertical
+{
+	 border: 0px solid transparent;
+	 background: none;
+	 subcontrol-position: bottom;
+	 height: 0px;
+}
+QScrollBar::add-line:horizontal
+{
+	 border: 0px solid transparent;
+	 background: none;
+	 subcontrol-position: right;
+	 width: 0px;
+}
+QScrollBar::sub-line:vertical
+{
+	 border: 0px solid transparent;
+	 background: none;
+	 subcontrol-position: top;
+	 height: 0px;
+}
+QScrollBar::sub-line:horizontal
+{
+	 border: 0px solid transparent;
+	 background: none;
+	 subcontrol-position: left;
+	 width: 0px;
+}
+QScrollBar::add-page, QScrollBar::sub-page
+{
+    background: rgba(100,100,100,100);
+    border: 0px solid transparent;
+}
+QScrollArea
+{
+    border: 0px solid transparent;
+    background-color: transparent;
+}
+QAbstractScrollArea > QWidget > QWidget{background-color: transparent;}
+
+QGroupBox
+{
+    border: 1px solid #696969;
+    border-radius: 2px;
+    margin-top: 10px;
+    padding-top: 20px;
+    font-size: 10pt;
+}
+QGroupBox::title
+{
+    color: white;
+    subcontrol-position: top center;
+    top: -12px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+QStatusBar{color: white;}
+QToolButton{color: transparent;}
+ValueWidget{border: 1px inset rgba(0,0,0,20); background-color: rgba(0,0,0,20);}
+
+QTextBrowser, QLineEdit
+{
+    border: 1px inset #00baff;
+    color: white;
+    background-color: #303030;
+}
+QLineEdit:disabled
+{
+    border: 1px inset #555555;
+    color: white;
+    background-color: #303030;
+}
+
+QProgressBar
+{
+    border: 1px inset #00baff;
+    color: white;
+    background-color: #303030;
+    text-align: center;
+}
+ 
+MainWindow, QDialog
+{
+    background-color: #454545;
+}
+QLabel{color: white; font-size: 8pt;}
+ 
+QTreeView::item, QTableView::item
+{
+    color: #ffffff;
+    padding: 5px;
+}
+
+QHeaderView::section
+{
+    color: #ffffff;
+    background-color: #2f4f4f;
+    border: 1px outset #00baff;
+    font-size: 14px;
+    padding: 5px;
+}
+QTreeView, QTableView, QTableCornerButton::section
+{
+    background-color: rgba(45,45,45,255);
+    border: 1px solid #00baff;
+}
+QTabWidget>QWidget
+{
+    background-color: rgba(45,45,45,255);
+    border: 1px solid #696969;
+}
+
+QComboBox
+{
+    border: 1px outset #00baff;
+    color: white;
+    background-color: #303030;
+    min-width: 75px;
+    font-size: 12px;
+}
+QComboBox:disabled{border: 1px outset #555555;}
+QComboBox::down-arrow
+{
+    image: url(:/icons/downarrow.png);
+    max-width: 15px;
+    max-height: 15px;
+}
+QComboBox::down-arrow:disabled{image: url(:/icons/downarrow_d.png);}
+QComboBox::drop-down
+{
+    border: 0px solid transparent;
+    margin-right: 4px;
+    margin-top: 2px;
+}
+QComboBox QAbstractItemView
+{
+    background-color: #303030;
+    color: white;
+    selection-background-color: #16AECC;
+    border: 1px outset #00baff;
+    border-top: 1px solid #505050;
+}
+.QPushButton{border: 1px outset #00baff; color: white; background-color: #303030; padding: 4px;}
+.QPushButton:hover{border: 1px outset #00baff; color: white; background-color: #505050;}
+.QPushButton:pressed{border: 1px inset #00baff; color: white; background-color: #00baff;}
+.QPushButton:checked{border: 1px inset #00baff; color: white; background-color: #00baff;}
+.QPushButton:disabled{border: 1px inset #555555; color: #a0a0a0; background-color: #202020;}
+
+.QFrame{background-color: #16AECC; border: 1px outset #16AECC;}
+
+QRadioButton{color: white;}
+QCheckBox{color: white;}
+QCheckBox::indicator:checked 
+{
+    image: url(:/icons/check.png);
+    width: 15px; height: 15px;
+}
+QCheckBox::indicator:unchecked
+{
+    image: url(:/icons/uncheck.png);
+    width: 15px; height: 15px;
+}
+QCheckBox::indicator:checked:disabled
+{
+    image: url(:/icons/check_d.png);
+    width: 15px; height: 15px;
+}
+QCheckBox::indicator:unchecked:disabled
+{
+    image: url(:/icons/uncheck_d.png);
+    width: 15px; height: 15px;
+}
+QPushButton
+{
+    min-width: 60px;
+}
+
+QTabWidget::pane{border-top: 2px solid #00baff;}
+QTabBar::tab
+{
+    color: white;
+    background: #454545;
+    border: 1px solid #00baff;
+    border-bottom: 0px;
+    min-width: 30ex;
+    padding: 2px;
+}
+QTabBar::tab:selected, QTabBar::tab:hover
+{
+    color: black;
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #fafafa, stop: 0.4 #f4f4f4,
+                                stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
+}
