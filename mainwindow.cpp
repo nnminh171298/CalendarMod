@@ -130,6 +130,7 @@ void MainWindow::googleStartButtonClicked()
 
     QSettings settings;
     settings.setValue("primary", primaryCalendarRadio->isChecked());
+    settings.setValue("clear", clearEventsCheckBox->isChecked());
     settings.setValue("secondaryName", secondaryCalendarEdit->text().simplified());
 
     insertEventProgressBar->setMaximum(eventCount);
@@ -298,5 +299,6 @@ void MainWindow::getLastSessionSettings()
         primaryCalendarRadio->setChecked(true);
     else
         secondaryCalendarRadio->setChecked(true);
+    clearEventsCheckBox->setChecked(settings.value("clear", true).toBool());
     secondaryCalendarEdit->setText(settings.value("secondaryName", QString()).toString());
 }
